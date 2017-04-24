@@ -17,8 +17,8 @@ public class Forecast {
 
 
     public class Temperature{
-        String max;
-        String min;
+        public String max;
+        public String min;
     }
 
     public class More{
