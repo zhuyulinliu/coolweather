@@ -1,5 +1,6 @@
 package coolweather.com.coolweather;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -24,6 +25,7 @@ import java.io.IOException;
 
 import coolweather.com.coolweather.gson.Forecast;
 import coolweather.com.coolweather.gson.Weather;
+import coolweather.com.coolweather.service.AutoUpdateService;
 import coolweather.com.coolweather.util.HttpUtil;
 import coolweather.com.coolweather.util.Utility;
 import okhttp3.Call;
@@ -148,6 +150,12 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     private void showWeatherInfo(Weather weather) {
+        if (weather != null && "ok".equals(weather.status)){
+            Intent intent = new Intent(this, AutoUpdateService.class);
+            startService(intent);
+        }else {
+            Toast.makeText(this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
+        }
         String cityName = weather.basic.cityName;
         String updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
